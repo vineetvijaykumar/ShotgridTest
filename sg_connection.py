@@ -50,6 +50,5 @@ class ShotGridConnector:
                 api_key=self.api_key,
                 connect=True,
                 http_proxy=None,
-                # ssl_verify=False  # SSL verification is disabled per instructions
             )
         return self.connection
