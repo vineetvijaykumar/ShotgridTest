@@ -29,7 +29,8 @@ def evaluate_query_fields(entity_type: str, entity_id: int, field_names: List[st
 
     return {field: result.get(field) for field in field_names} if result else {}
 
-def get_sequence_query_results(project_id: int):
+
+def get_sequence_data(project_id: int) -> List[Dict[str, Any]]:
     """
     Retrieves all Sequences for a given project and evaluates specified query fields.
 
@@ -37,7 +38,8 @@ def get_sequence_query_results(project_id: int):
         project_id (int): The ID of the ShotGrid project.
 
     Returns:
-        List[Dict[str, Any]]: A list of dictionaries containing sequence name and query field values.
+        List[Dict[str, Any]]: A list of dictionaries containing sequence name and query field values,
+                              with an empty 'shots' list to be populated later.
     """
     query_fields = ["sg_cut_duration", "sg_ip_versions"]
 
@@ -49,13 +51,54 @@ def get_sequence_query_results(project_id: int):
 
     results = []
     for seq in sequences:
-        field_values = evaluate_query_fields("Sequence", seq["id"], query_fields)
-        result = {
+        seq_fields = evaluate_query_fields("Sequence", seq["id"], query_fields)
+        sequence_data = {
+            "id": seq["id"],
             "name": seq["code"],
-            **field_values
+            **seq_fields,
+            "shots": []
         }
-        results.append(result)
+        results.append(sequence_data)
 
     return results
 
-print (get_sequence_query_results(85))
+
+def get_shots_for_sequence(sequence_id: int) -> List[Dict[str, Any]]:
+    """
+    Retrieves all Shots for a given Sequence and evaluates specified query fields.
+
+    Args:
+        sequence_id (int): The ID of the ShotGrid sequence.
+
+    Returns:
+        List[Dict[str, Any]]: A list of dictionaries containing shot name and query field values.
+    """
+    query_fields = ["sg_cut_duration", "sg_ip_versions"]
+
+    shots = sg_connection.find(
+        "Shot",
+        [["sg_sequence", "is", {"type": "Sequence", "id": sequence_id}]],
+        ["id", "code"]
+    )
+
+    shot_data = []
+    for shot in shots:
+        shot_fields = evaluate_query_fields("Shot", shot["id"], query_fields)
+        shot_data.append({
+            "name": shot["code"],
+            **shot_fields
+        })
+
+    return shot_data
+
+
+def get_sequence_query_results(project_id: int) -> List[Dict[str, Any]]:
+    """
+    Combines sequence and shot query field data into a unified nested structure.
+    """
+    sequences = get_sequence_data(project_id)
+
+    for seq in sequences:
+        seq["shots"] = get_shots_for_sequence(seq["id"])
+
+    return sequences
