@@ -100,16 +100,10 @@ ShotgridTest/
 
 ---
 
-## 📷 Example Output
-
-> *(Add a screenshot of your HTML table rendering here if you’d like)*
-
----
-
 ## 🧠 Author
 
 Vineet Vijaykumar  
-[Your LinkedIn or GitHub Link]
+https://github.com/vineetvijaykumar/
 
 ---
 
