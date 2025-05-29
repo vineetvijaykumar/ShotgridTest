@@ -1,0 +1,5 @@
+shotgun_api3
+jinja2
+six
+flask==3.1.1
+pytest

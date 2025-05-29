@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShotGrid Sequence and Shot Data</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 40px auto;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #eee;
+        }
+        .sequence-row {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+        .shot-row {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">Sequence & Shot Query Results</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Cut Duration</th>
+                <th>IP Versions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sequence in sequences %}
+                <tr class="sequence-row">
+                    <td>Sequence</td>
+                    <td>{{ sequence.name }}</td>
+                    <td>{{ sequence.sg_cut_duration }}</td>
+                    <td>{{ sequence.sg_ip_versions }}</td>
+                </tr>
+                {% for shot in sequence.shots %}
+                    <tr class="shot-row">
+                        <td>Shot</td>
+                        <td>{{ shot.name }}</td>
+                        <td>{{ shot.sg_cut_duration }}</td>
+                        <td>{{ shot.sg_ip_versions }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
