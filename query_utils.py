@@ -95,6 +95,8 @@ def get_shots_for_sequence(sequence_id: int) -> List[Dict[str, Any]]:
 def get_sequence_query_results(project_id: int) -> List[Dict[str, Any]]:
     """
     Combines sequence and shot query field data into a unified nested structure.
+    Returns:
+        List[Dict[str, Any]]: A list of dictionaries containing sequence data
     """
     sequences = get_sequence_data(project_id)
 
