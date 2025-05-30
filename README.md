@@ -83,7 +83,7 @@ ShotgridTest/
 ├── sg_connection.py      # ShotGrid API setup
 ├── query_utils.py        # Reusable query functions
 ├── templates/
-│   └── table.html        # HTML rendering template
+│   └── sequences.html        # HTML rendering template
 ├── tests/
 │   └── test_queries.py   # Unit tests with mocking
 ├── requirements.txt
