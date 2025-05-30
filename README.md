@@ -26,8 +26,8 @@ cd ShotgridTest
 
 ```bash
 python3.11 -m venv .venv
-pip install -r requirements.txt
 source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
 > ✅ Python 3.11 is recommended for compatibility.
