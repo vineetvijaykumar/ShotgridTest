@@ -1,5 +1,6 @@
-from sg_connection import ShotGridConnector
 from typing import List, Dict, Any
+
+from sg_connection import ShotGridConnector
 
 try:
     sg_connection = ShotGridConnector().get_connection()
@@ -7,7 +8,9 @@ try:
 except Exception as e:
     raise Exception('Connection to ShotGrid failed: {}'.format(e))
 
-def evaluate_query_fields(entity_type: str, entity_id: int, field_names: List[str]) -> Dict[str, Any]:
+
+def evaluate_query_fields(entity_type: str, entity_id: int,
+                          field_names: List[str]) -> Dict[str, Any]:
     """
     Evaluates and returns the values of multiple ShotGrid query fields without
     knowing the filter conditions in advance.
@@ -18,8 +21,8 @@ def evaluate_query_fields(entity_type: str, entity_id: int, field_names: List[st
         field_names (List[str]): A list of query field names to evaluate.
 
     Returns:
-        Dict[str, Any]: A dictionary mapping each field name to its evaluated value.
-                        Returns an empty dict if the entity is not found.
+        Dict[str, Any]: A dictionary mapping each field name to its evaluated
+            value. Returns an empty dict if the entity is not found.
     """
     result = sg_connection.find_one(
         entity_type,
@@ -27,19 +30,22 @@ def evaluate_query_fields(entity_type: str, entity_id: int, field_names: List[st
         field_names
     )
 
-    return {field: result.get(field) for field in field_names} if result else {}
+    return ({field: result.get(field) for field in field_names}
+            if result else {})
 
 
 def get_sequence_data(project_id: int) -> List[Dict[str, Any]]:
     """
-    Retrieves all Sequences for a given project and evaluates specified query fields.
+    Retrieves all Sequences for a given project and evaluates specified query
+    fields.
 
     Args:
         project_id (int): The ID of the ShotGrid project.
 
     Returns:
-        List[Dict[str, Any]]: A list of dictionaries containing sequence name and query field values,
-                              with an empty 'shots' list to be populated later.
+        List[Dict[str, Any]]: A list of dictionaries containing sequence name
+            and query field values, with an empty 'shots' list to be populated
+            later.
     """
     query_fields = ["sg_cut_duration", "sg_ip_versions"]
 
@@ -65,13 +71,15 @@ def get_sequence_data(project_id: int) -> List[Dict[str, Any]]:
 
 def get_shots_for_sequence(sequence_id: int) -> List[Dict[str, Any]]:
     """
-    Retrieves all Shots for a given Sequence and evaluates specified query fields.
+    Retrieves all Shots for a given Sequence and evaluates specified query
+    fields.
 
     Args:
         sequence_id (int): The ID of the ShotGrid sequence.
 
     Returns:
-        List[Dict[str, Any]]: A list of dictionaries containing shot name and query field values.
+        List[Dict[str, Any]]: A list of dictionaries containing shot name and
+            query field values.
     """
     query_fields = ["sg_cut_duration", "sg_ip_versions"]
 
@@ -94,7 +102,12 @@ def get_shots_for_sequence(sequence_id: int) -> List[Dict[str, Any]]:
 
 def get_sequence_query_results(project_id: int) -> List[Dict[str, Any]]:
     """
-    Combines sequence and shot query field data into a unified nested structure.
+    Combines sequence and shot query field data into a unified nested
+    structure.
+
+    Args:
+        project_id (int): The ID of the ShotGrid project.
+
     Returns:
         List[Dict[str, Any]]: A list of dictionaries containing sequence data
     """

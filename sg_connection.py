@@ -1,8 +1,8 @@
 """sg_connection.py
 
-This module defines a reusable ShotGridConnector class that establishes a connection
-to the LAIKA ShotGrid demo site using the Shotgun Python API. The connection is shared
-for use across other modules in the project.
+This module defines a reusable ShotGridConnector class that establishes a
+connection to the LAIKA ShotGrid demo site using the Shotgun Python API. The
+connection is shared for use across other modules in the project.
 
 Example usage:
     from sg_connection import ShotGridConnector
@@ -38,7 +38,8 @@ class ShotGridConnector:
 
     def get_connection(self):
         """
-        Returns a Shotgun connection object. Initializes the connection if not already done.
+        Returns a Shotgun connection object. Initializes the connection if not
+        already done.
 
         Returns:
             Shotgun: An authenticated Shotgun API object.
