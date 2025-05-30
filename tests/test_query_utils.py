@@ -1,7 +1,7 @@
 # tests/test_query_utils.py
 
 from unittest.mock import patch
-from query_utils import get_sequence_query_results
+from query_utils import get_sequence_query_results, evaluate_query_fields
 from sg_connection import ShotGridConnector
 
 
@@ -14,7 +14,6 @@ def test_evaluate_query_fields_success(mock_sg):
         "field2": 42
     }
 
-    from query_utils import evaluate_query_fields
     result = evaluate_query_fields("Entity", 123, ["field1", "field2"])
 
     # Verify correct call to find_one
@@ -37,7 +36,6 @@ def test_evaluate_query_fields_missing_fields(mock_sg):
         # field2 is missing
     }
 
-    from query_utils import evaluate_query_fields
     result = evaluate_query_fields("Entity", 123, ["field1", "field2"])
 
     # Verify field1 exists and field2 is None
@@ -49,7 +47,6 @@ def test_evaluate_query_fields_entity_not_found(mock_sg):
     # Setup mock to return None (entity not found)
     mock_sg.find_one.return_value = None
 
-    from query_utils import evaluate_query_fields
     result = evaluate_query_fields("Entity", 999, ["field1", "field2"])
 
     # Verify empty dict is returned
